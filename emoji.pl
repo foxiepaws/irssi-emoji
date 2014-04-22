@@ -1,9 +1,7 @@
 use strict;
 use warnings;
 use utf8;
-
 use Irssi;
-use Data::Dumper;
 
 
 our $VERSION = '0.0.0';
@@ -22,7 +20,6 @@ our %emoji = (
 
 
 sub completer {
-    print Dumper @_;
     my ($strings, $window, $word, $linestart, $want_space) = @_;
 
     # we have two completion points, first is when the we match %e(: which
@@ -31,9 +28,9 @@ sub completer {
 
     return unless ($word =~ /%e\(/);
 
-
     if ($word =~ /%e\(([a-zA-Z_1-9]+)/) {
-        @$strings = map {"%e(" . $_ } grep {/^$1/} keys %emoji;
+        @$strings = map {"%e(" . $_ } grep {/^$1/} keys %emoji; # get all the keys in %emoji and filter by 
+                                                                # $word, then add the `%e(' 
         $$want_space = 0;
         Irssi::signal_stop();
     }
