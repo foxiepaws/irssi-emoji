@@ -13,7 +13,7 @@ our %IRSSI = (
     license     => 'BSD 2-Clause',
 );
 
-# list of emoji.
+# list of emoji. {{{
 our %emoji = (
 copyright => "\x{00A9}",
 registered => "\x{00AE}",
@@ -860,7 +860,7 @@ left_luggage => "\x{1F6C5}",
 #ru => "\x{1F1F7-1F1FA}",
 #us => "\x{1F1FA-1F1F8}"
 );
-
+# }}} 
 
 sub completer {
     my ($strings, $window, $word, $linestart, $want_space) = @_;
@@ -871,14 +871,14 @@ sub completer {
 
     return unless ($word =~ /%e\(/);
 
-    if ($word =~ /%e\(([a-zA-Z_\-1-9]+)/) {
+    if ($word =~ /^%e\(([a-zA-Z_\-1-9]+)$/) {
         @$strings = map {"%e(" . $_ } grep {/^$1/} keys %emoji; # get all the keys in %emoji and filter by 
                                                                 # $word, then add the `%e(' 
         $$want_space = 0;
         Irssi::signal_stop();
     }
     # replace string with character.
-    if ($word =~ /%e\(([a-zA-Z_\-1-9]+)\)/) {
+    if ($word =~ /^%e\(([a-zA-Z_\-1-9]+)\)$/) {
         push @$strings, $emoji{$1};
         $$want_space = 1;
         Irssi::signal_stop();
@@ -886,3 +886,6 @@ sub completer {
 }
 
 Irssi::signal_add_first('complete word', \&completer);
+ 
+
+# vim: set ts=4 sw=4 tw=0 et fdm=marker:
