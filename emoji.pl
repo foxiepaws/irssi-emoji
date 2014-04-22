@@ -31,11 +31,17 @@ sub completer {
 
     return unless ($word =~ /%e\(/);
 
-    # 
+
+    if ($word =~ /%e\(([a-zA-Z_1-9]+)/) {
+        @$strings = map {"%e(" . $_ } grep {/^$1/} keys %emoji;
+        $$want_space = 0;
+        Irssi::signal_stop();
+    }
+    # replace string with character.
     if ($word =~ /%e\((\w+)\)/) {
-       push @$strings, $emoji{$1};
-       $$want_space = 1; 
-       Irssi::signal_stop();
+        push @$strings, $emoji{$1};
+        $$want_space = 1;
+        Irssi::signal_stop();
     }
 }
 
