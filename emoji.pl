@@ -871,14 +871,14 @@ sub completer {
 
     return unless ($word =~ /%e\(/);
 
-    if ($word =~ /^%e\(([a-zA-Z_\-1-9]+)$/) {
-        @$strings = map {"%e(" . $_ } grep {/^$1/} keys %emoji; # get all the keys in %emoji and filter by 
+    if ($word =~ /^%e\(([a-zA-Z_\+\-1-9]+)$/) {
+        @$strings = map {"%e(" . $_ } grep {/^\Q$1\E/} keys %emoji; # get all the keys in %emoji and filter by 
                                                                 # $word, then add the `%e(' 
         $$want_space = 0;
         Irssi::signal_stop();
     }
     # replace string with character.
-    if ($word =~ /^%e\(([a-zA-Z_\-1-9]+)\)$/) {
+    if ($word =~ /^%e\(([a-zA-Z_\+\-1-9]+)\)$/) {
         push @$strings, $emoji{$1};
         $$want_space = 1;
         Irssi::signal_stop();
