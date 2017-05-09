@@ -879,6 +879,7 @@ sub completer {
     }
     # replace string with character.
     if ($word =~ /^%e\(([a-zA-Z_\+\-1-9]+)\)$/) {
+        return unless (exists($emoji{$1}));
         push @$strings, $emoji{$1};
         $$want_space = 1;
         Irssi::signal_stop();
